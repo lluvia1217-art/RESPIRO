@@ -23,18 +23,18 @@
 
     body, html {
       width: 100%;
-      min-height: 100vh;
+      height: 100%;
       background-color: #0b0b0d;
       color: #3e2723;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
-    /* Main Container with High Quality Background Visual */
+    /* Main Container with High Quality Background Visual (PC 기본) */
     .hero-container {
       position: relative;
       width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,6 +42,7 @@
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
+      overflow: hidden;
     }
 
     /* Fallback soft vignette when image is loading */
@@ -49,7 +50,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(15, 12, 10, 0.4) 100%);
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, rgba(15, 12, 10, 0.4) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -103,11 +104,11 @@
     }
 
     /* =========================================================
-       4. Navigation Bar (커서 위치: 이탈리아 지도 중앙 바로 아래배치)
+       4. Navigation Bar (PC 위치)
        ========================================================= */
     .bottom-nav {
       position: absolute !important;
-      top: 36% !important; /* 커서가 가리킨 지도 영역에 고정 */
+      top: 36% !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
       z-index: 20 !important;
@@ -162,7 +163,7 @@
     }
 
     /* =========================================================
-       5. Brand Poem (메뉴바 아래 딥 골든 브라운 톤)
+       5. Brand Poem (PC 위치)
        ========================================================= */
     .brand-poem {
       position: absolute;
@@ -174,7 +175,7 @@
       text-align: center;
       font-size: 1.05rem;
       line-height: 1.7;
-      color: #3b2314 !important; /* 딥 골든 브라운 */
+      color: #3b2314 !important;
       font-weight: 700;
       text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.7), 0px 0px 8px rgba(212, 175, 55, 0.4) !important;
       opacity: 0.95;
@@ -183,7 +184,7 @@
     }
 
     /* =========================================================
-       6. Interactive Dessert Hotspots (Hover Proximity)
+       6. Interactive Dessert Hotspots (PC 위치)
        ========================================================= */
     .interactive-dessert-layer {
       position: absolute;
@@ -273,59 +274,66 @@
     }
 
     /* =========================================================
-       7. Responsive Adjustments for Mobile (모바일 비율 맞춤)
+       7. Mobile Dedicated Setup (bg-mobile.jpg 최적화 레이아웃)
        ========================================================= */
     @media (max-width: 768px) {
       .hero-container {
-        background-size: contain;
-        background-position: center top;
+        /* 모바일 접속 시 세로 전용 배경 이미지 스위칭 */
+        background-image: url('bg-mobile.jpg') !important;
+        background-size: cover !important;
+        background-position: center center !important;
       }
 
       .header-zone {
-        margin-top: 2vh;
-        transform: scale(0.85);
+        margin-top: 5vh;
+        transform: scale(0.82);
       }
 
+      /* 모바일 bg-mobile.jpg의 지도 바로 아래로 네비게이션 위치 고정 */
       .bottom-nav {
-        top: 34% !important;
-        padding: 6px 14px;
-        gap: 10px;
-        width: 88%;
-        max-width: 340px;
+        top: 31% !important;
+        padding: 5px 12px;
+        gap: 6px;
+        width: 86%;
+        max-width: 310px;
         justify-content: center;
       }
 
       .nav-link {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         letter-spacing: 0.01em;
       }
 
+      /* 지도 중앙~디저트 사이 공간에 딥 골든 브라운 브랜드 폼 정렬 */
       .brand-poem {
-        top: 42%;
-        font-size: 0.78rem;
-        color: #3b2314 !important;
-        padding: 0 10px;
+        top: 37% !important;
+        font-size: 0.75rem;
+        color: #3b2314 !important; /* 딥 골든 브라운 */
+        padding: 0 15px;
         line-height: 1.5;
       }
 
+      /* 세로 이미지 구도에 맞춘 각 디저트별 클릭 핫스팟 정확한 좌표 */
       .spot-left {
-        top: 36%;
+        top: 41%;
         left: 5%;
-        width: 32vw;
-        height: 32vw;
+        width: 42vw;
+        height: 42vw;
       }
 
       .spot-right {
-        top: 36%;
+        top: 41%;
         right: 5%;
-        width: 32vw;
-        height: 32vw;
+        width: 42vw;
+        height: 42vw;
       }
 
       .spot-center {
-        bottom: 22%;
-        width: 40vw;
-        height: 40vw;
+        bottom: 18%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 48vw;
+        height: 48vw;
       }
     }
   </style>
@@ -344,7 +352,7 @@
       </div>
     </header>
 
-    <!-- Navigation Bar (지도 위치 고정) -->
+    <!-- Navigation Bar -->
     <nav class="bottom-nav">
       <a href="#passport" class="nav-link" onclick="onNavClick('PASSPORT')">PASSPORT (미식 여권)</a>
       <span class="nav-divider">◆</span>
@@ -353,7 +361,7 @@
       <a href="#vocal" class="nav-link" onclick="onNavClick('VOCAL')">VOCAL & MUSIC</a>
     </nav>
 
-    <!-- Brand Poem (골든 갈색 톤) -->
+    <!-- Brand Poem (딥 골든 브라운 색상) -->
     <p class="brand-poem" id="brand-poem">
       " 단 하나의 숨으로 소리를 완성하듯,<br>
       밀도 높은 미학과 서사를 담아낸 단 하나의 디저트"
