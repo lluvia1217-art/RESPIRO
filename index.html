@@ -66,33 +66,46 @@ body, html {
       z-index: 2;
       pointer-events: none; /* Let mouse pass through to tracking logic */
     }
-/* 모바일 전용 겹침 해제 및 여백 조정 */
-.header-zone {
-    margin-top: 8vh !important; /* 상단 버튼들과 로고 사이 여백 확 늘리기 */
+
+    /* 상단 메뉴 박스 위치 조정 */
+.nav-container, .top-nav, [class*="nav"] {
+    position: relative !important;
+    z-index: 20 !important;
+    margin-top: 5px !important;
 }
 
-/* CELESTIAL ALIGNMENT 뱃지 수직 위치 조정 */
-.celestial-badge-container {
-    top: 15px !important;
+/* CELESTIAL ALIGNMENT 뱃지 상단 밀착 */
+.celestial-badge-container, [class*="celestial"] {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 5px !important;
 }
 
-/* 하단 문구 밝게 + 그림자 강조 */
-.quote-container, .hero-quote {
+/* Re:spiro 로고 영역을 메뉴 박스 아래로 강제 하향 */
+.header-zone, .brand-title, .logo, h1 {
+    margin-top: 40px !important;
+    padding-top: 20px !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* 하단 문구 밝은 골드 톤 및 가독성 배경 그림자 적용 */
+.quote-container, .hero-quote, p {
     color: #f5e6c8 !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95) !important;
-    font-weight: 500 !important;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.95), 0px 0px 4px rgba(0, 0, 0, 0.8) !important;
+    font-weight: 600 !important;
 }
 
     /* =========================================================
        3. Re:spiro Central Title Section
        ========================================================= */
     .header-zone {
-      position: relative;
-      z-index: 10;
-      margin-top: 4vh;
-      text-align: center;
-      cursor: default;
-    }
+    position: relative;
+    z-index: 10;
+    margin-top: 16vh !important; 
+    text-align: center;
+    cursor: default;
+}
 
     .title-wrapper {
       position: relative;
