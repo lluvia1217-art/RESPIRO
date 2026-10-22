@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Re:spiro | 숨, 그리고 미식의 헤리티지</title>
+
+  <!-- Google Fonts: Noto Serif KR & Cormorant Garamond -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       1. Global Reset & Theme Design Tokens
+       ========================================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+body, html {
+    width: 100%;
+    min-height: 100%;
+    background-color: #0b0b0d;
+    color: #3e2723;
+}
+
+    /* Main Container with High Quality Background Visual */
+    .hero-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh; /* height 대신 min-height 사용 */
+    min-height: 100dvh; /* 모바일 동적 뷰포트 높이 대응 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+    /* Fallback soft vignette when image is loading */
+    .hero-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(15, 12, 10, 0.4) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* =========================================================
+       2. Fullscreen Interactive Canvas (Constellation / Starlight)
+       ========================================================= */
+    #celestial-canvas {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none; /* Let mouse pass through to tracking logic */
+    }
+
+    /* =========================================================
+       3. Re:spiro Central Title Section
+       ========================================================= */
+    .header-zone {
+      position: relative;
+      z-index: 10;
+      margin-top: 4vh;
+      text-align: center;
+      cursor: default;
+    }
+
+    .title-wrapper {
+      position: relative;
+      display: inline-block;
+      padding: 20px 40px;
+    }
+
+    /* Subtle glowing ring indicator when cursor approaches */
+    .title-halo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 500px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.25) 0%, rgba(15, 32, 39, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    /* Active dynamic description popping up smoothly */
+    .brand-poem {
+      position: relative;
+      z-index: 10;
+      margin-top: 500px;
+      margin-left: 80px;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: #2c1d11;
+      font-weight: 600;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+      opacity: 0.85;
+      transition: opacity 0.4s ease;
+    }
+
+    /* =========================================================
+       4. Interactive Dessert Hotspots (Hover Proximity)
+       ========================================================= */
+    .interactive-dessert-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .dessert-spot {
+      position: absolute;
+      border-radius: 50%;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.3s ease;
+    }
+
+    /* Custom tooltip hint on dessert hover */
+    .dessert-spot::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(44, 29, 17, 0.88);
+      color: #d4af37;
+      font-size: 0.82rem;
+      font-family: 'Noto Serif KR', serif;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .dessert-spot:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Positions corresponding to image layout */
+    .spot-left {
+      top: 38%;
+      left: 18%;
+      width: 22vw;
+      height: 22vw;
+      max-width: 280px;
+      max-height: 280px;
+    }
+
+    .spot-right {
+      top: 36%;
+      right: 14%;
+      width: 22vw;
+      height: 22vw;
+      max-width: 280px;
+      max-height: 280px;
+    }
+
+    .spot-center {
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24vw;
+      height: 24vw;
+      max-width: 320px;
+      max-height: 320px;
+    }
+
+    /* =========================================================
+       5. Minimal Bottom Navigation Bar
+       ========================================================= */
+.bottom-nav {
+  position: absolute;
+  bottom: 550px;
+  left: 51.4%;                  /* 👈 오른쪽으로 이동 (숫자가 커질수록 더 오른쪽으로 갑니다) */
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 12px 32px;
+  border-radius: 30px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.nav-link {
+  color: #4A3B2C !important;  /* 👈 파란색 글자 복구 (고급스러운 다크 브라운-골드) */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #C5A059 !important;  /* 👈 호버 시 골드 빛 효과 */
+}
+    .nav-link {
+      color: #3e2723;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 2px 4px;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0%;
+      height: 1.5px;
+      background-color: #d4af37;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover {
+      color: #000;
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-divider {
+      color: rgba(62, 39, 35, 0.4);
+      font-size: 0.8rem;
+    }
+
+    /* Floating Status Indicator */
+    .proximity-status {
+      position: fixed;
+      top: 20px;
+      right: 25px;
+      z-index: 20;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: #d4af37;
+      background: rgba(15, 32, 39, 0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .brand-title { font-size: 2.6rem; }
+      .brand-subtitle { font-size: 0.85rem; }
+      .brand-poem { font-size: 0.85rem; }
+      .bottom-nav { gap: 16px; padding: 10px 20px; }
+      .nav-link { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-container" id="hero">
+    
+    <!-- Dynamic Starlight & Constellation Canvas -->
+    <canvas id="celestial-canvas"></canvas>
+
+    <!-- Top Header & Proximity Responsive Logo Zone -->
+    <header class="header-zone">
+      <div class="title-wrapper" id="title-wrapper">
+        <div class="title-halo" id="title-halo"></div>
+      </div>
+      
+      <p class="brand-poem" id="brand-poem">
+        " 단 하나의 숨으로 소리를 완성하듯,<br>
+        밀도 높은 미학과 서사를 담아낸 단 하나의 디저트"
+      </p>
+    </header>
+
+    <!-- Interactive Dessert Hotspots -->
+    <div class="interactive-dessert-layer">
+      <div class="dessert-spot spot-left" data-name="Pistachio Caprese Tart" onclick="onDessertClick('카프레제 쇼콜라 타르트')"></div>
+      <div class="dessert-spot spot-right" data-name="Imperial Tiramisu Taco" onclick="onDessertClick('티라미수 타코')"></div>
+      <div class="dessert-spot spot-center" data-name="Celestial Constellation Dome" onclick="onDessertClick('천체도 돔 무스')"></div>
+    </div>
+
+    <!-- Live Celestial Sensor Status -->
+    <div class="proximity-status" id="proximity-status">
+      ✨ CELESTIAL ALIGNMENT: <span id="alignment-val">0%</span>
+    </div>
+
+    <!-- Minimal Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <a href="#passport" class="nav-link" onclick="onNavClick('PASSPORT')">PASSPORT (미식 여권)</a>
+      <span class="nav-divider">◆</span>
+      <a href="#essay" class="nav-link" onclick="onNavClick('ESSAY')">ESSAY (서사)</a>
+      <span class="nav-divider">◆</span>
+      <a href="#vocal" class="nav-link" onclick="onNavClick('VOCAL')">VOCAL & MUSIC</a>
+    </nav>
+
+  </div>
+
+  <script>
+    /* =========================================================
+       Celestial Constellation & Proximity Physics Engine
+       ========================================================= */
+
+    // Canvas Setup
+    const canvas = document.getElementById('celestial-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    const titleWrapper = document.getElementById('title-wrapper');
+    const titleHalo = document.getElementById('title-halo');
+    const alignmentVal = document.getElementById('alignment-val');
+    const brandPoem = document.getElementById('brand-poem');
+
+    let width, height;
+    let mouse = { x: -1000, y: -1000 };
+    let proximity = 0; // Normalized 0.0 to 1.0
+
+    // Resize Canvas Responsively
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Track Mouse Coordinates
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    // Touch Interaction Support for Mobile
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    });
+
+   // 1. 별자리 데이터 정의 (오리온, 카시오페아, 큰곰자리)
+const constellations = [
+  {
+    name: "Orion",
+    centerOffset: { x: -750, y: 140 },
+    stars: [
+      { x: -80, y: -100 }, { x: 80, y: -110 },
+      { x: -30, y: 0 }, { x: 0, y: 0 }, { x: 30, y: 0 },
+      { x: -70, y: 100 }, { x: 70, y: 90 }
+    ],
+    edges: [[0,1], [0,2], [1,4], [2,3], [3,4], [2,5], [4,6]]
+  },
+  {
+    name: "Cassiopeia",
+    centerOffset: { x: 680, y: 130 },
+    stars: [
+      { x: -100, y: 20 }, { x: -50, y: -40 }, { x: 0, y: 10 }, { x: 50, y: -50 }, { x: 100, y: 0 }
+    ],
+    edges: [[0,1], [1,2], [2,3], [3,4]]
+  },
+  {
+    name: "UrsaMajor",
+    centerOffset: { x: 0, y: 220 },
+    stars: [
+      { x: -140, y: 40 }, { x: -80, y: 44 }, { x: -40, y: 0 }, { x: 0, y: -10 },
+      { x: 20, y: 50 }, { x: 90, y: 44 }, { x: 70, y: -20 }
+    ],
+    edges: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,3]]
+  }
+];
+
+// 2. 배경 별빛 파티클 시스템 생성
+const NUM_STARS = 90;
+const backgroundStars = [];
+
+for (let i = 0; i < NUM_STARS; i++) {
+  backgroundStars.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    radius: Math.random() * 1.8 + 0.5,
+    baseAlpha: Math.random() * 0.4 + 0.1,
+    twinkleSpeed: Math.random() * 0.03 + 0.005,
+    phase: Math.random() * Math.PI * 2
+  });
+}
+
+// 3. 메인 애니메이션 렌더링 루프 함수
+function animate() {
+  ctx.clearRect(0, 0, width, height);
+
+  const titleRect = titleWrapper.getBoundingClientRect();
+  const titleCenter = {
+    x: titleRect.left + titleRect.width / 2,
+    y: titleRect.top + titleRect.height / 2
+  };
+
+  const dist = Math.hypot(mouse.x - titleCenter.x, mouse.y - titleCenter.y);
+  const maxDistance = 480;
+  
+  const targetProximity = Math.max(0, 1 - dist / maxDistance);
+  proximity += (targetProximity - proximity) * 0.08;
+
+  // 타이틀 후광 및 서사 문구 인터랙션
+  titleHalo.style.opacity = Math.min(1, 0.2 + proximity * 1.5);
+  titleHalo.style.transform = `translate(-50%, -50%) scale(${0.9 + proximity * 0.4})`;
+  if (alignmentVal) {
+    alignmentVal.innerText = `${Math.round(proximity * 100)}%`;
+  }
+
+  if (proximity > 0.4) {
+    brandPoem.style.opacity = 1.0;
+    brandPoem.style.textShadow = `0 0 ${8 * proximity}px rgba(212, 175, 55, ${0.8 * proximity})`;
+  } else {
+    brandPoem.style.opacity = 0.85;
+  }
+
+  // 배경 별 반짝임 및 렌더링
+  backgroundStars.forEach(star => {
+    star.phase += star.twinkleSpeed * 1.5;
+    const currentAlpha = star.baseAlpha + Math.sin(star.phase) * 0.35 + (proximity * 0.4);
+    const finalAlpha = Math.min(1, Math.max(0.1, currentAlpha));
+
+    ctx.beginPath();
+    const currentRadius = star.radius * (1 + Math.sin(star.phase * 0.8) * 0.3);
+    ctx.arc(star.x, star.y, currentRadius, 0, Math.PI * 2);
+    
+    ctx.shadowColor = 'rgba(255, 235, 170, 0.8)';
+    ctx.shadowBlur = 4 * finalAlpha;
+    
+    ctx.fillStyle = `rgba(255, 248, 220, ${finalAlpha})`;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  });
+
+  // 별자리 렌더링 (마우스 접근 시 활성화)
+  if (proximity > 0.02) {
+    const time = Date.now() * 0.001;
+
+    constellations.forEach(constellation => {
+      const groupX = titleCenter.x + constellation.centerOffset.x;
+      const groupY = titleCenter.y + constellation.centerOffset.y;
+
+      const currentStars = constellation.stars.map((s, idx) => {
+        const floatX = Math.sin(time + idx) * 3 * proximity;
+        const floatY = Math.cos(time + idx * 0.8) * 3 * proximity;
+        return {
+          x: groupX + s.x + floatX,
+          y: groupY + s.y + floatY
+        };
+      });
+
+      ctx.beginPath();
+      constellation.edges.forEach(([i, j]) => {
+        ctx.moveTo(currentStars[i].x, currentStars[i].y);
+        ctx.lineTo(currentStars[j].x, currentStars[j].y);
+      });
+
+      ctx.strokeStyle = `rgba(235, 195, 80, ${0.35 + proximity * 0.65})`;
+      ctx.lineWidth = 3.0;
+      ctx.shadowColor = 'rgba(255, 215, 100, 0.9)';
+      ctx.shadowBlur = 12 * proximity;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      currentStars.forEach((starPos, idx) => {
+  ctx.beginPath();
+  
+  // 별자리 안에서 위치(idx)별로 크기를 다이하게 다르게 부여
+  const sizeMultiplier = (idx === 0 || idx === 1) ? 1.5 : (idx % 3 === 0 ? 0.8 : 1.1);
+  const radius = (3.2 * sizeMultiplier) + (proximity * 1.5);
+  
+  ctx.arc(starPos.x, starPos.y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = `rgba(255, 245, 210, ${0.4 + proximity * 0.6})`;
+  ctx.fill();
+});
+
+      currentStars.forEach(starPos => {
+        ctx.beginPath();
+        ctx.arc(starPos.x, starPos.y, 6 * proximity, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 220, 120, 0.25)';
+        ctx.fill();
+      });
+    });
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// 4. 최초 애니메이션 루프 실행 호출
+animate();
+
+  </script>
+</body>
+</html>
