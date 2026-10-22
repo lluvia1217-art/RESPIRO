@@ -69,7 +69,7 @@
     }
 
     /* =========================================================
-       3. Re:spiro Central Header Zone
+       3. Re:spiro Central Header Zone (PC)
        ========================================================= */
     .header-zone {
       position: relative;
@@ -274,41 +274,46 @@
     }
 
     /* =========================================================
-       7. Mobile Dedicated Setup (모바일 전용: bg-mobile.jpg 적용)
+       7. Mobile Dedicated Setup (모바일 전용 크기 축소 및 위쪽 정렬)
        ========================================================= */
     @media (max-width: 768px) {
       .hero-container {
-        /* 모바일 화면에서는 무조건 bg-mobile.jpg 사용 */
         background-image: url('bg-mobile.jpg') !important;
         background-size: cover !important;
         background-position: center center !important;
       }
 
       .header-zone {
-        margin-top: 5vh;
-        transform: scale(0.82);
+        margin-top: 3vh;
+        transform: scale(0.75); /* 로고 전체 영역을 살짝 더 축소하여 여유 확보 */
       }
 
+      /* 모바일 전용 네비게이션 바: 크기 줄이고 위쪽으로 배치 */
       .bottom-nav {
-        top: 31% !important;
-        padding: 5px 12px;
-        gap: 6px;
-        width: 86%;
-        max-width: 310px;
+        top: 28.5% !important;
+        padding: 4px 10px;
+        gap: 5px;
+        width: 82%;
+        max-width: 290px;
         justify-content: center;
       }
 
       .nav-link {
-        font-size: 0.65rem;
+        font-size: 0.58rem;
         letter-spacing: 0.01em;
       }
 
+      .nav-divider {
+        font-size: 0.55rem;
+      }
+
+      /* 모바일 전용 브랜드 폼: 폰트 크기 줄이고 겹치지 않게 위로 조정 */
       .brand-poem {
-        top: 37% !important;
-        font-size: 0.75rem;
+        top: 34% !important;
+        font-size: 0.68rem;
         color: #3b2314 !important;
-        padding: 0 15px;
-        line-height: 1.5;
+        padding: 0 10px;
+        line-height: 1.4;
       }
 
       .spot-left {
