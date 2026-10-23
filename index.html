@@ -8,12 +8,12 @@
   <!-- Google Fonts: Noto Serif KR & Cormorant Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
-       1. Global Reset & Theme Design Tokens
-       ========================================================= */
+        1. Global Reset & Theme Design Tokens
+        ========================================================= */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -27,6 +27,7 @@
       background-color: #0b0b0d;
       color: #3e2723;
       overflow: hidden;
+      font-family: 'Noto Serif KR', serif;
     }
 
     /* Main Container (PC 기본: bg.jpg 사용) */
@@ -45,7 +46,7 @@
       overflow: hidden;
     }
 
-    /* Fallback soft vignette when image is loading */
+    /* Fallback soft vignette */
     .hero-container::before {
       content: '';
       position: absolute;
@@ -56,8 +57,8 @@
     }
 
     /* =========================================================
-       2. Fullscreen Interactive Canvas (Constellation / Starlight)
-       ========================================================= */
+        2. Fullscreen Interactive Canvas (Constellation / Starlight)
+        ========================================================= */
     #celestial-canvas {
       position: absolute;
       top: 0;
@@ -69,8 +70,8 @@
     }
 
     /* =========================================================
-       3. Re:spiro Central Header Zone (PC)
-       ========================================================= */
+        3. Re:spiro Central Header Zone (PC)
+        ========================================================= */
     .header-zone {
       position: relative;
       z-index: 10;
@@ -88,7 +89,6 @@
       padding: 10px 40px;
     }
 
-    /* Subtle glowing ring indicator when cursor approaches */
     .title-halo {
       position: absolute;
       top: 50%;
@@ -104,8 +104,8 @@
     }
 
     /* =========================================================
-       4. Navigation Bar (PC 위치)
-       ========================================================= */
+        4. Navigation Bar
+        ========================================================= */
     .bottom-nav {
       position: absolute !important;
       top: 36% !important;
@@ -134,6 +134,7 @@
       transition: all 0.3s ease;
       position: relative;
       padding: 2px 4px;
+      cursor: pointer;
     }
 
     .nav-link::after {
@@ -163,11 +164,59 @@
     }
 
     /* =========================================================
-       5. Brand Poem (PC 위치)
-       ========================================================= */
+        4.1. Google Login / Auth Bar (PC 기본 중앙 / 모바일 우측 상단)
+        ========================================================= */
+    .auth-bar {
+      position: absolute !important;
+      top: 44% !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      z-index: 20 !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(14, 11, 8, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 6px 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    .google-login-btn {
+      background: #ffffff;
+      color: #333333;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: 'Noto Serif KR', serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .google-login-btn:hover {
+      background: #f1f1f1;
+    }
+
+    .user-profile-status {
+      color: #e6c280;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================================
+        5. Brand Poem
+        ========================================================= */
     .brand-poem {
       position: absolute;
-      top: 45%;
+      top: 52%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -184,8 +233,8 @@
     }
 
     /* =========================================================
-       6. Interactive Dessert Hotspots (평소 숨김, 호버/클릭 시 노출)
-       ========================================================= */
+        6. Interactive Dessert Hotspots (평소 숨김, 호버/클릭 시 노출)
+        ========================================================= */
     .interactive-dessert-layer {
       position: absolute;
       inset: 0;
@@ -215,18 +264,14 @@
       border-radius: 20px;
       letter-spacing: 0.08em;
       white-space: nowrap;
-      
-      /* 평소에 완벽히 숨김 */
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       transition: all 0.3s ease;
-      
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       border: 1px solid rgba(212, 175, 55, 0.4);
     }
 
-    /* 마우스 호버 또는 터치 시 나타남 */
     .dessert-spot:hover::after,
     .dessert-spot:active::after {
       opacity: 1;
@@ -262,7 +307,6 @@
       max-height: 320px;
     }
 
-    /* Floating Status Indicator */
     .proximity-status {
       position: fixed;
       top: 20px;
@@ -281,8 +325,313 @@
     }
 
     /* =========================================================
-       7. Mobile Dedicated Setup (모바일 전용 접시 위 위치 보정)
-       ========================================================= */
+        7. PASSPORT Interactive Modal (이탈리아 지도 & 스탬프 북) - 원본 보전
+        ========================================================= */
+    .passport-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(8, 6, 5, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      padding: 20px;
+    }
+
+    .passport-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .passport-modal {
+      position: relative;
+      width: 100%;
+      max-width: 920px;
+      max-height: 90vh;
+      background: #14100c linear-gradient(135deg, #1c1611 0%, #0d0a08 100%);
+      border: 2px solid #d4af37;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(212, 175, 55, 0.2);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .passport-overlay.active .passport-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: #d4af37;
+      color: #14100c;
+    }
+
+    .passport-header {
+      padding: 28px 30px 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .passport-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+      color: #f3e5ab;
+      text-transform: uppercase;
+    }
+
+    .passport-subtitle {
+      font-size: 0.85rem;
+      color: #a89470;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* 이탈리아 지도 스케일 & 줌 영역 */
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      background: radial-gradient(circle at center, #1e1812 0%, #0c0a08 100%);
+      overflow: hidden;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .italy-map-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
+    }
+
+    .passport-overlay.active .italy-map-bg {
+      animation: mapZoomIn 1.2s ease forwards;
+    }
+
+    @keyframes mapZoomIn {
+      0% { transform: scale(0.85); opacity: 0.5; }
+      100% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* SVG 이탈리아 지도 그래픽 */
+    .italy-svg {
+      width: 320px;
+      height: 350px;
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.3));
+    }
+
+    /* 지도 상 미식 거점 핀 */
+    .map-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    .map-pin:hover {
+      transform: translate(-50%, -55%) scale(1.15);
+    }
+
+    .pin-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e6c280 0%, #a67c1e 100%);
+      border: 2px solid #fff;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+      position: relative;
+    }
+
+    .pin-icon::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      animation: pinPulse 2s infinite;
+    }
+
+    @keyframes pinPulse {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .pin-label {
+      margin-top: 4px;
+      background: rgba(15, 12, 10, 0.85);
+      color: #e6c280;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      white-space: nowrap;
+    }
+
+    /* 거점 핀 위치 설정 (이탈리아 지도상 좌표) */
+    .pin-milano  { top: 22%; left: 38%; }
+    .pin-cremona { top: 30%; left: 45%; }
+    .pin-firenze { top: 48%; left: 52%; }
+    .pin-roma    { top: 66%; left: 60%; }
+
+    /* 스탬프 슬롯 컬렉션 */
+    .stamp-collection {
+      padding: 24px 30px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stamp-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(212, 175, 55, 0.35);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 160px;
+    }
+
+    .stamp-card:hover {
+      background: rgba(212, 175, 55, 0.08);
+      border-color: #d4af37;
+    }
+
+    .stamp-city {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: #d4af37;
+      letter-spacing: 0.05em;
+    }
+
+    .stamp-item-name {
+      font-size: 0.75rem;
+      color: #b3a286;
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+
+    .stamp-slot {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 1px dashed rgba(212, 175, 55, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    /* 왁스 인장 스탬프 스타일 */
+    .wax-seal {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #b82323 0%, #6b0d0d 100%);
+      border: 2px solid #e08b8b;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
+      color: #f7e1a0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.1;
+      opacity: 0;
+      transform: scale(2.5) rotate(-30deg);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .stamp-card.stamped .wax-seal,
+    .map-pin.stamped .wax-seal {
+      opacity: 1;
+      transform: scale(1) rotate(-5deg);
+    }
+
+    .wax-seal-icon {
+      font-size: 1.1rem;
+      margin-bottom: 2px;
+    }
+
+    /* 완주 인증서 뱃지 */
+    .certificate-banner {
+      margin: 10px 30px 25px;
+      padding: 16px 20px;
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.25) 50%, rgba(212, 175, 55, 0.1) 100%);
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .certificate-banner.active {
+      display: block;
+    }
+
+    .cert-title {
+      font-family: 'Cormorant Garamond', serif;
+      color: #fff;
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+    }
+
+    .cert-desc {
+      font-size: 0.8rem;
+      color: #e6c280;
+      margin-top: 4px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================
+        8. Mobile Dedicated Setup (모바일 반응형 보정)
+        ========================================================= */
     @media (max-width: 768px) {
       .hero-container {
         background-image: url('bg-mobile.jpg') !important;
@@ -291,59 +640,99 @@
       }
 
       .header-zone {
-        margin-top: 3vh;
-        transform: scale(0.75);
+        margin-top: 2vh;
+        transform: scale(0.7);
       }
 
+      /* 네비게이션바 지도 영역 내부 배치 */
       .bottom-nav {
-        top: 28.5% !important;
-        padding: 4px 10px;
-        gap: 5px;
+        top: 32.5% !important;
+        padding: 3px 10px;
+        gap: 4px;
         width: 82%;
         max-width: 290px;
         justify-content: center;
       }
 
+      /* 모바일 우측 상단 로그인 바: 센서 상태 창과 겹치지 않도록 아래로 이동 (top: 60px) */
+      .auth-bar {
+        position: absolute !important;
+        top: 60px !important;
+        right: 12px !important;
+        left: auto !important;
+        transform: none !important;
+        padding: 3px 8px;
+        gap: 5px;
+        border-radius: 14px;
+      }
+
+      .google-login-btn {
+        font-size: 0.55rem;
+        padding: 2px 6px;
+      }
+
+      .user-profile-status {
+        font-size: 0.55rem;
+      }
+
       .nav-link {
-        font-size: 0.58rem;
+        font-size: 0.55rem;
         letter-spacing: 0.01em;
       }
 
       .nav-divider {
-        font-size: 0.55rem;
+        font-size: 0.5rem;
       }
 
+      /* 브랜드 시구 지도 영역 내부 겹침 배치 */
       .brand-poem {
-        top: 34% !important;
-        font-size: 0.68rem;
+        top: 38% !important;
+        font-size: 0.62rem;
         color: #3b2314 !important;
         padding: 0 10px;
-        line-height: 1.4;
+        line-height: 1.35;
       }
 
-      /* 모바일 타르트(왼쪽) 접시 위로 위치 대폭 상향 */
       .spot-left {
-        top: 33.5% !important;
-        left: 6% !important;
-        width: 40vw;
-        height: 40vw;
+        top: 41% !important;
+        left: 5% !important;
+        width: 42vw;
+        height: 42vw;
       }
 
-      /* 모바일 티라미수(오른쪽) 접시 위로 위치 대폭 상향 */
       .spot-right {
-        top: 33.5% !important;
-        right: 6% !important;
-        width: 40vw;
-        height: 40vw;
+        top: 41% !important;
+        right: 5% !important;
+        width: 42vw;
+        height: 42vw;
       }
 
-      /* 모바일 천체도 돔 위치 */
       .spot-center {
-        bottom: 24% !important;
+        bottom: 18% !important;
         left: 50%;
         transform: translateX(-50%);
-        width: 48vw;
-        height: 48vw;
+        width: 54vw;
+        height: 54vw;
+      }
+
+      /* 모바일 여권 모달 조율 */
+      .stamp-collection {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .map-container {
+        height: 280px;
+      }
+
+      .italy-svg {
+        width: 240px;
+        height: 260px;
+      }
+
+      .passport-title {
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -364,12 +753,21 @@
 
     <!-- Navigation Bar -->
     <nav class="bottom-nav">
-      <a href="#passport" class="nav-link" onclick="onNavClick('PASSPORT')">PASSPORT (미식 여권)</a>
+      <a class="nav-link" onclick="openPassportModal()">PASSPORT (미식 여권)</a>
       <span class="nav-divider">◆</span>
-      <a href="#essay" class="nav-link" onclick="onNavClick('ESSAY')">ESSAY (서사)</a>
+      <a class="nav-link" onclick="onNavClick('ESSAY')">ESSAY (서사)</a>
       <span class="nav-divider">◆</span>
-      <a href="#vocal" class="nav-link" onclick="onNavClick('VOCAL')">VOCAL & MUSIC</a>
+      <a class="nav-link" onclick="onNavClick('VOCAL')">VOCAL & MUSIC</a>
     </nav>
+
+    <!-- Google Login / Auth Bar -->
+    <div class="auth-bar">
+      <button class="google-login-btn" onclick="onGoogleLogin()">
+        <svg width="12" height="12" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.15C3.15 21.32 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.18C.43 8.13 0 9.85 0 12s.43 3.87 1.18 5.39l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.15 2.68 1.18 6.61l4.09 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+        Google Login
+      </button>
+      <span class="user-profile-status" id="loginStatus">Guest</span>
+    </div>
 
     <!-- Brand Poem -->
     <p class="brand-poem" id="brand-poem">
@@ -391,10 +789,113 @@
 
   </div>
 
+  <!-- =========================================================
+        PASSPORT Modal & Italy Interactive Map (원본 완벽 보전)
+        ========================================================= -->
+  <div class="passport-overlay" id="passportModal">
+    <div class="passport-modal">
+      <button class="modal-close-btn" onclick="closePassportModal()">&times;</button>
+      
+      <div class="passport-header">
+        <h2 class="passport-title">Re:spiro Gastronomy Passport</h2>
+        <p class="passport-subtitle">이탈리아 미식 거점을 탐험하고 전설의 스탬프를 수집하세요</p>
+      </div>
+
+      <!-- 이탈리아 지도 줌인 패널 -->
+      <div class="map-container">
+        <div class="italy-map-bg">
+          <!-- 이탈리아 실루엣 SVG -->
+          <svg class="italy-svg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M120 80 Q 150 70, 180 85 T 220 110 T 250 140 Q 230 180, 210 220 T 260 280 T 290 350 Q 270 380, 250 420 L 230 400 Q 200 350, 190 300 T 170 230 T 150 160 Z" fill="#2d2218" stroke="#d4af37" stroke-width="2" opacity="0.85"/>
+            <!-- 시칠리아 & 사르데냐 섬 약식 모형 -->
+            <path d="M140 390 Q 170 380, 180 410 T 150 430 Z" fill="#2d2218" stroke="#d4af37" stroke-width="1.5" opacity="0.7"/>
+            <path d="M90 220 Q 110 210, 115 250 T 95 280 Z" fill="#2d2218" stroke="#d4af37" stroke-width="1.5" opacity="0.7"/>
+          </svg>
+        </div>
+
+        <!-- 지도 상 거점 핀 -->
+        <div class="map-pin pin-milano" onclick="stampCity('milano')">
+          <div class="pin-icon"></div>
+          <span class="pin-label">Milano / Capri</span>
+        </div>
+
+        <div class="map-pin pin-cremona" onclick="stampCity('cremona')">
+          <div class="pin-icon"></div>
+          <span class="pin-label">Cremona</span>
+        </div>
+
+        <div class="map-pin pin-firenze" onclick="stampCity('firenze')">
+          <div class="pin-icon"></div>
+          <span class="pin-label">Firenze</span>
+        </div>
+
+        <div class="map-pin pin-roma" onclick="stampCity('roma')">
+          <div class="pin-icon"></div>
+          <span class="pin-label">Roma</span>
+        </div>
+      </div>
+
+      <!-- 완주 메세지 뱃지 -->
+      <div class="certificate-banner" id="certBanner">
+        <h3 class="cert-title">🏆 Re:spiro Master Gastronomer Certificate</h3>
+        <p class="cert-desc">축하합니다! 이탈리아 4대 미식 거점의 모든 헤리티지 스탬프를 완성하셨습니다.</p>
+      </div>
+
+      <!-- 스탬프 슬롯 컬렉션 -->
+      <div class="stamp-collection">
+        
+        <div class="stamp-card" id="card-firenze" onclick="stampCity('firenze')">
+          <span class="stamp-city">Firenze</span>
+          <span class="stamp-item-name">메디치 방패 마카롱</span>
+          <div class="stamp-slot">
+            <div class="wax-seal">
+              <span class="wax-seal-icon">⚜️</span>
+              <span>FIRENZE</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stamp-card" id="card-milano" onclick="stampCity('milano')">
+          <span class="stamp-city">Milano/Capri</span>
+          <span class="stamp-item-name">카프레제 쇼콜라</span>
+          <div class="stamp-slot">
+            <div class="wax-seal">
+              <span class="wax-seal-icon">👑</span>
+              <span>CAPRI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stamp-card" id="card-roma" onclick="stampCity('roma')">
+          <span class="stamp-city">Roma</span>
+          <span class="stamp-item-name">티라미수 타코 로마</span>
+          <div class="stamp-slot">
+            <div class="wax-seal">
+              <span class="wax-seal-icon">🏛️</span>
+              <span>ROMA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stamp-card" id="card-cremona" onclick="stampCity('cremona')">
+          <span class="stamp-city">Cremona</span>
+          <span class="stamp-item-name">토로네 크레모나</span>
+          <div class="stamp-slot">
+            <div class="wax-seal">
+              <span class="wax-seal-icon">🎻</span>
+              <span>CREMONA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script>
     /* =========================================================
-       Celestial Constellation & Proximity Physics Engine
-       ========================================================= */
+        1. Celestial Constellation & Proximity Physics Engine
+        ========================================================= */
 
     const canvas = document.getElementById('celestial-canvas');
     const ctx = canvas.getContext('2d');
@@ -469,6 +970,23 @@
         twinkleSpeed: Math.random() * 0.03 + 0.005,
         phase: Math.random() * Math.PI * 2
       });
+    }
+
+    function onNavClick(navType) {
+      console.log('Navigated to:', navType);
+    }
+
+    function onDessertClick(dessertName) {
+      console.log('Selected Dessert:', dessertName);
+    }
+
+    function onGoogleLogin() {
+      const statusEl = document.getElementById('loginStatus');
+      if (statusEl.innerText === 'Guest') {
+        statusEl.innerText = 'Master Connoisseur';
+      } else {
+        statusEl.innerText = 'Guest';
+      }
     }
 
     function animate() {
@@ -559,6 +1077,49 @@
     }
 
     animate();
+
+    /* =========================================================
+        2. PASSPORT Modal & Stamp Interaction Mechanics
+        ========================================================= */
+
+    const passportModal = document.getElementById('passportModal');
+    const stampedState = {
+      firenze: false,
+      milano: false,
+      roma: false,
+      cremona: false
+    };
+
+    function openPassportModal() {
+      passportModal.classList.add('active');
+    }
+
+    function closePassportModal() {
+      passportModal.classList.remove('active');
+    }
+
+    function stampCity(cityKey) {
+      if (stampedState[cityKey]) return; // 이미 찍힌 경우 스킵
+
+      stampedState[cityKey] = true;
+      
+      const card = document.getElementById(`card-${cityKey}`);
+      if (card) {
+        card.classList.add('stamped');
+      }
+
+      checkFullCompletion();
+    }
+
+    function checkFullCompletion() {
+      const isComplete = Object.values(stampedState).every(val => val === true);
+      if (isComplete) {
+        const certBanner = document.getElementById('certBanner');
+        if (certBanner) {
+          certBanner.classList.add('active');
+        }
+      }
+    }
   </script>
 </body>
 </html>
